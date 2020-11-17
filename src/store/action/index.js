@@ -1,27 +1,43 @@
-import Firebase from '../../config/firebase'
-import firebase from 'firebase'
-const set_data = (data) =>{
-    return (dispatch) =>{
-        console.log(data)
-        //object me type setdate dosri property set data he
-        dispatch ({ type :"SETDATE", user:{name:"bilal" , email:"bilal@gmail.com"}})
-    }
-}
+import firebase from '../../config/firebase'
+// import {useHistory} from 'react-router-dom'
+// import firebase from 'firebase'
+// const set_data = (data) =>{
+//     return (dispatch) =>{
+//         console.log(data)
+//         //object me type setdate dosri property set data he
+//         dispatch ({ type :"SETDATE", payload:{name:"bilal" , email:"bilal@gmail.com"}})
+//     }
+// }
 
-const facebookLogin = () => {
+const facebookLogin = (history) => {
     // console.log("okay")
     return (dispatch) =>{
-        var provider = new Firebase.auth.FacebookAuthProvider();
+        var provider = new firebase.auth.FacebookAuthProvider();
         // provider.setCustomParameters({
         //     'display': 'popup'
         //   });
-        Firebase.auth().signInWithPopup(provider).then(function(result) {
+        firebase.auth().signInWithPopup(provider).then(function(result) {
             // This gives you a Facebook Access Token. You can use it to access the Facebook API.
             var token = result.credential.accessToken;
             // The signed-in user info.
             var user = result.user;
             // ...
-            console.log("user",user)
+            let createUser = {
+                user: user.displayName,
+                email : user.email,
+                profile : user.photoURL,
+                uid : user.uid
+            }
+            console.log("user",createUser)
+            // set https = true in command line
+
+
+            firebase.database().ref('/').child(`users/${user.uid}`).set(createUser)
+            .then(()=>{
+                dispatch({type:"SETUSER",payload: createUser})
+                alert("successfully login")
+                history.push('/Chat')
+            })
           }).catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
@@ -37,6 +53,6 @@ const facebookLogin = () => {
 }
 //
 export {
-    set_data,
+    // set_data,
     facebookLogin
 }
