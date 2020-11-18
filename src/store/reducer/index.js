@@ -11,12 +11,17 @@ export default (state = INITIAL_STATE, action) =>{
             //         // app_name: action,
             //         users: [...state.users, action.payload]
             //     })
-            case  "SETUSER":
+            case "SETUSER":
                 return({
                     ...state,
                     currentUsers : action.payload
                 })
-        }
+            case    "SETFIREBASEUSERS":
+                return({
+                    ...state,
+                    users: action.payload
+                })
+    }
     
-        return state;
+    return state;
 };

@@ -1,0 +1,10 @@
+.maindiv{
+    display: flex;
+
+}
+.users{
+    background-color: aquamarine;
+}
+.userchat{
+    background-color: blueviolet;
+}

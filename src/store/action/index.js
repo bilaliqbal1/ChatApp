@@ -51,8 +51,23 @@ const facebookLogin = (history) => {
           });
     }
 }
+
+const getUsers = () => {
+    return (dispatch) =>{
+        let users = [];
+        firebase.database().ref('/').child('users').on('child_added',(data)=>{
+                // console.log("firebase data",data.val())
+                users.push(data.val())
+        })
+        // console.log(users)
+        dispatch({type:"SETFIREBASEUSERS",payload: users})
+    }
+}
+
+
 //
 export {
     // set_data,
-    facebookLogin
+    facebookLogin,
+    getUsers,
 }
