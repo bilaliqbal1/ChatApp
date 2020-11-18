@@ -4,10 +4,12 @@ import {connect } from 'react-redux'
 class Chat extends React.Component{
     render(){
         // console.log("propss", this.props)
-        let user =  this.props.currentUsers;
+        const user =  this.props.currentUsers;
         return(
             <div>
-                <h1>Welcome {user.name}</h1>
+                <h1>Welcome {user.user}</h1>
+                <img src={user.profile } alt=""/>
+        <h2>Email: {user.email}</h2>
             </div>
         )
     }
